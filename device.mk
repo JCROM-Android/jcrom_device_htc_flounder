@@ -184,6 +184,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fsck.f2fs mkfs.f2fs
 
+PRODUCT_PACKAGES += \
+    tinycap \
+    tinymix \
+    tinyplay \
+    xaplay \
+    cplay
+
 PRODUCT_PROPERTY_OVERRIDES := \
     wifi.interface=wlan0 \
     ro.opengles.version=196609 \
