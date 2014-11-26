@@ -34,6 +34,8 @@ $(call inherit-product-if-exists, vendor/htc/flounder/flounder-vendor.mk)
 $(call inherit-product-if-exists, vendor/aosp/htc/flounder/full.mk)
 $(call inherit-product, device/aosp/common/full.mk)
 
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=volantis TARGET_DEVICE=flounder BUILD_FINGERPRINT=google/volantis/flounder:5.0/LRX21L/1546449:user/release-keys PRIVATE_BUILD_DESC="volantis-user 5.0 LRX21L 1546449 release-keys"
+
 PRODUCT_NAME := full_flounder
 PRODUCT_DEVICE := flounder
 PRODUCT_BRAND := google
