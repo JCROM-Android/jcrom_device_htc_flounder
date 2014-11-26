@@ -15,4 +15,5 @@
 #
 
 PRODUCT_MAKEFILES := \
-	$(LOCAL_DIR)/jcrom_flounder.mk
+	$(LOCAL_DIR)/jcrom_flounder.mk \
+	$(LOCAL_DIR)/jcrom_fullflounder.mk
