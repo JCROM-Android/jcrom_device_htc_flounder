@@ -4,17 +4,17 @@ VENDOR=htc
 DEVICE=flounder
 
 echo "Please wait..."
-wget -nc -q https://dl.google.com/dl/android/aosp/volantis-lrx21q-factory-10521789.tgz
-tar zxf volantis-lrx21q-factory-10521789.tgz
-rm volantis-lrx21q-factory-10521789.tgz
-cd volantis-lrx21q
-unzip image-volantis-lrx21q.zip
-rm image-volantis-lrx21q.zip
+wget -nc -q https://dl.google.com/dl/android/aosp/volantis-lrx21r-factory-ac87eba2.tgz
+tar zxf volantis-lrx21r-factory-ac87eba2.tgz
+rm volantis-lrx21r-factory-ac87eba2.tgz
+cd volantis-lrx21r
+unzip image-volantis-lrx21r.zip
+rm image-volantis-lrx21r.zip
 cd ../
-./simg2img volantis-lrx21q/vendor.img vendor.ext4.img
+./simg2img volantis-lrx21r/vendor.img vendor.ext4.img
 mkdir vendor
 sudo mount -o loop -t ext4 vendor.ext4.img vendor
-./simg2img volantis-lrx21q/system.img system.ext4.img
+./simg2img volantis-lrx21r/system.img system.ext4.img
 mkdir system
 sudo mount -o loop -t ext4 system.ext4.img system
 
@@ -45,6 +45,6 @@ sudo umount vendor
 rm -rf vendor
 sudo umount system
 rm -rf system
-rm -rf volantis-lrx21q
+rm -rf volantis-lrx21r
 rm vendor.ext4.img
 rm system.ext4.img
