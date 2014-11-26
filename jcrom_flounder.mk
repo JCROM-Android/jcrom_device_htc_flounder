@@ -36,7 +36,7 @@ $(call inherit-product, device/aosp/common/full.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=volantis TARGET_DEVICE=flounder BUILD_FINGERPRINT=google/volantis/flounder:5.0/LRX21R/1573874:user/release-keys PRIVATE_BUILD_DESC="volantis-user 5.0 LRX21R 1573874 release-keys"
 
-PRODUCT_NAME := full_flounder
+PRODUCT_NAME := jcrom_flounder
 PRODUCT_DEVICE := flounder
 PRODUCT_BRAND := google
 PRODUCT_MODEL := Nexus 9
