@@ -34,7 +34,7 @@ $(call inherit-product-if-exists, vendor/htc/flounder/flounder-vendor.mk)
 $(call inherit-product, jcrom/lge/hammerhead/device-hammerhead.mk)
 $(call inherit-product, jcrom/common/common.mk)
 
-PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=volantis TARGET_DEVICE=flounder BUILD_FINGERPRINT=google/volantis/flounder:5.0/LRX21R/1573874:user/release-keys PRIVATE_BUILD_DESC="volantis-user 5.0 LRX21R 1573874 release-keys"
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=volantis TARGET_DEVICE=flounder BUILD_FINGERPRINT=google/volantis/flounder:5.0.1/LRX22C/1602158:user/release-keys PRIVATE_BUILD_DESC="volantis-user 5.0.1 LRX22C 1602158 release-keys"
 
 PRODUCT_NAME := jcrom_flounder
 PRODUCT_DEVICE := flounder
