@@ -31,6 +31,8 @@
 #include <hardware/hardware.h>
 #include <hardware/power.h>
 
+#include <cutils/properties.h>
+
 #define BOOSTPULSE_PATH "/sys/devices/system/cpu/cpufreq/interactive/boostpulse"
 #define CPU_MAX_FREQ_PATH "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq"
 #define FACEDOWN_PATH "/sys/class/htc_sensorhub/sensor_hub/facedown_enabled"
@@ -41,6 +43,14 @@
 #define NORMAL_MAX_FREQ "2901000"
 #define GPU_FREQ_CONSTRAINT "852000 852000 -1 2000"
 
+static char *low_power_max_freq[] = {
+    LOW_POWER_MAX_FREQ,
+    "1530000",
+    "1836000",
+    "2295000",
+    NORMAL_MAX_FREQ
+};
+
 struct flounder_power_module {
     struct power_module base;
     pthread_mutex_t lock;
@@ -49,6 +59,22 @@ struct flounder_power_module {
 };
 
 static bool low_power_mode = false;
+
+static int get_low_power_max_freq() {
+ 
+    char select_mode[PROPERTY_VALUE_MAX];
+    int select_num = 0;
+
+    property_get("persist.sys.max.freq", select_mode, NULL);
+
+    if ((strcmp(select_mode, "0") == 0) || (strcmp(select_mode, "1") == 0) || 
+        (strcmp(select_mode, "2") == 0) || (strcmp(select_mode, "3") == 0) ||
+        (strcmp(select_mode, "4") == 0)) {
+        select_num = atoi(select_mode);
+    }
+
+    return select_num;
+}
 
 static void sysfs_write(const char *path, char *s)
 {
@@ -94,13 +120,16 @@ static void power_init(struct power_module __unused *module)
 
 static void power_set_interactive(struct power_module __unused *module, int on)
 {
+    int select_num = 0;
+
     ALOGV("power_set_interactive: %d\n", on);
 
+    select_num = get_low_power_max_freq();
     /*
      * Lower maximum frequency when screen is off.
      */
     sysfs_write(CPU_MAX_FREQ_PATH,
-                (!on || low_power_mode) ? LOW_POWER_MAX_FREQ : NORMAL_MAX_FREQ);
+                (!on || low_power_mode) ? low_power_max_freq[select_num] : NORMAL_MAX_FREQ);
     sysfs_write(IO_IS_BUSY_PATH, on ? "1" : "0");
     sysfs_write(FACEDOWN_PATH, on ? "0" : "1");
     sysfs_write(TOUCH_SYNA_INTERACTIVE_PATH, on ? "1" : "0");
@@ -153,6 +182,7 @@ static void flounder_power_hint(struct power_module *module, power_hint_t hint,
     struct flounder_power_module *flounder =
             (struct flounder_power_module *) module;
     char buf[80];
+    int select_num = 0;
     int len;
 
     switch (hint) {
@@ -172,9 +202,10 @@ static void flounder_power_hint(struct power_module *module, power_hint_t hint,
         break;
 
     case POWER_HINT_LOW_POWER:
+        select_num = get_low_power_max_freq();
         pthread_mutex_lock(&flounder->lock);
         if (data) {
-            sysfs_write(CPU_MAX_FREQ_PATH, LOW_POWER_MAX_FREQ);
+            sysfs_write(CPU_MAX_FREQ_PATH, low_power_max_freq[select_num]);
         } else {
             sysfs_write(CPU_MAX_FREQ_PATH, NORMAL_MAX_FREQ);
         }
